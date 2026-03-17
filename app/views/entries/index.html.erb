@@ -1,0 +1,9 @@
+<h1>All Entries</h1>
+<div>
+ <% @entries.each do |entry| %>
+    <div>
+   <%= entry.name %>
+   <%= entry.link %>
+   </div>
+ <% end %>
+</div>
