@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
- root 'entries#index'
- resources :entries, only: [:create, :new, :destroy]
+  resources :entries, only: [:index, :new, :create, :show, :destroy] do
+    member do
+      post :generate_guide
+    end
+  end
+
+  root "entries#index"
 end

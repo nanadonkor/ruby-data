@@ -1,0 +1,28 @@
+<h1><%= @entry.technology %> for <%= @entry.use_case %></h1>
+
+<%= button_to "Generate Guide", generate_guide_entry_path(@entry), method: :post %>
+
+<% if @entry.overview.present? %>
+  <h2>Overview</h2>
+  <p><%= @entry.overview %></p>
+<% end %>
+
+<% if @entry.steps.present? %>
+  <h2>Steps</h2>
+  <p><%= simple_format(@entry.steps) %></p>
+<% end %>
+
+<% if @entry.code_example.present? %>
+  <h2>Code Example</h2>
+  <pre><code><%= @entry.code_example %></code></pre>
+<% end %>
+
+<% if @entry.doc_link.present? %>
+  <h2>Documentation</h2>
+  <p><%= link_to @entry.doc_link, @entry.doc_link, target: "_blank", rel: "noopener" %></p>
+<% end %>
+
+<% if @entry.tags.present? %>
+  <h2>Tags</h2>
+  <p><%= @entry.tags %></p>
+<% end %>

@@ -16,3 +16,25 @@
 
  @import "bootstrap";
  
+ .form-container {
+  margin-top: 20px;
+  max-width: 400;
+}
+
+.form-group {
+  margin-bottom: 20px; /* space between inputs */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 300px;
+  padding: 8px;
+}
+
+.form-actions {
+  margin-top: 30px; /* pushes TeachME button down */
+}

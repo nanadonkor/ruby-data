@@ -1,20 +1,22 @@
 <h1>New Entry</h1>
-<%= form_with(model: @entry) do |form| %>
- <div>
-   <%= form.label :name %>
-   <%= form.text_field :name %>
- </div>
- <div>
-   <%= form.label :link %>
-   <%= form.text_field :link %>
- </div>
- <div>
-   <%= form.submit %>
- </div>
-<% end %>
 
-<br>
+<div class="form-container">
+  <%= form_with model: @entry do |form| %>
 
-<div>
- <%= link_to "Back to home", root_path %>
+    <div class="form-group">
+      <%= form.label :technology %>
+      <%= form.text_field :technology %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :use_case, "Use Case/Scenario?" %>
+      <%= form.text_field :use_case %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "TeachME!" %>
+    </div>
+
+  <% end %>
 </div>
+
