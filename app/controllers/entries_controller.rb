@@ -8,14 +8,17 @@ class EntriesController < ApplicationController
   end
 
   def create
-    @entry = Entry.new(entry_params)
+  @entry = Entry.new(entry_params)
 
-    if @entry.save
-      redirect_to @entry, notice: "Learning request created successfully."
-    else
-      render :new, status: :unprocessable_entity
-    end
+  if @entry.save
+    GenerateEntryGuideWithGemini.new(@entry).call
+    redirect_to @entry, notice: "Guide generated successfully."
+  else
+    render :new, status: :unprocessable_entity
   end
+rescue StandardError => e
+  redirect_to @entry, alert: "Guide generation failed: #{e.message}"
+end
 
   def show
     @entry = Entry.find(params[:id])
@@ -29,14 +32,15 @@ class EntriesController < ApplicationController
   end
 
   def generate_guide
-  @entry = Entry.find(params[:id])
+    @entry = Entry.find(params[:id])
 
-  GenerateEntryGuideWithGemini.new(@entry).call
+    GenerateEntryGuideWithGemini.new(@entry).call
 
-  redirect_to @entry, notice: "Guide generated successfully."
-rescue StandardError => e
-  redirect_to @entry, alert: "Guide generation failed: #{e.message}"
-end
+      redirect_to @entry, notice: "Guide generated successfully."
+        rescue StandardError => e
+      redirect_to @entry, alert: "Guide generation failed: #{e.message}"
+  end
+  
   private
 
   def entry_params
