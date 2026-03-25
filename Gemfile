@@ -18,7 +18,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem "sassc-rails"
-gem 'bootstrap', '~> 5.2', '>= 5.2.3'
+gem "bootstrap", "~> 5.2", ">= 5.2.3"
 gem "faraday"
 gem "cgi", ">= 0.3.3"
 
