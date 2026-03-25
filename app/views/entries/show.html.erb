@@ -1,28 +1,42 @@
-<h1><%= @entry.technology %> for <%= @entry.use_case %></h1>
+<div class="guide-page">
+  <div class="guide-header">
+    <%= link_to "Back to Home", entries_path, class: "back-link" %>
 
-<%= button_to "Generate Guide", generate_guide_entry_path(@entry), method: :post %>
+    <h1><%= @entry.technology %></h1>
+    <p class="guide-use-case"><%= @entry.use_case %></p>
+  </div>
 
-<% if @entry.overview.present? %>
-  <h2>Overview</h2>
-  <p><%= @entry.overview %></p>
-<% end %>
+  <div class="guide-content">
+    <% if @entry.overview.present? %>
+      <section class="guide-section">
+        <h2>Overview</h2>
+        <p><%= @entry.overview %></p>
+      </section>
+    <% end %>
 
-<% if @entry.steps.present? %>
-  <h2>Steps</h2>
-  <p><%= simple_format(@entry.steps) %></p>
-<% end %>
+    <% if @entry.steps.present? %>
+      <section class="guide-section">
+        <h2>Steps</h2>
+        <div class="guide-steps">
+          <%= simple_format(@entry.steps) %>
+        </div>
+      </section>
+    <% end %>
 
-<% if @entry.code_example.present? %>
-  <h2>Code Example</h2>
-  <pre><code><%= @entry.code_example %></code></pre>
-<% end %>
+    <% if @entry.code_example.present? %>
+      <section class="guide-section">
+        <h2>Code Example</h2>
+        <pre class="code-block"><code><%= @entry.code_example %></code></pre>
+      </section>
+    <% end %>
 
-<% if @entry.doc_link.present? %>
-  <h2>Documentation</h2>
-  <p><%= link_to @entry.doc_link, @entry.doc_link, target: "_blank", rel: "noopener" %></p>
-<% end %>
-
-<% if @entry.tags.present? %>
-  <h2>Tags</h2>
-  <p><%= @entry.tags %></p>
-<% end %>
+    <% if @entry.doc_link.present? %>
+      <section class="guide-section">
+        <h2>Documentation</h2>
+        <p>
+          <%= link_to "View documentation", @entry.doc_link, target: "_blank", rel: "noopener" %>
+        </p>
+      </section>
+    <% end %>
+  </div>
+</div>

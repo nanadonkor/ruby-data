@@ -15,26 +15,210 @@
  */
 
  @import "bootstrap";
+
+ .title-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title-section h1 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  letter-spacing: 0.5px;
+}
+
+ .main-container {
+  min-height: calc(100vh - 60px); /* adjust based on navbar height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ .page-container {
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+}
  
  .form-container {
-  margin-top: 20px;
-  max-width: 400;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centres everything inside */
 }
 
 .form-group {
-  margin-bottom: 20px; /* space between inputs */
+  margin-bottom: 25px;
+  text-align: center; /* centres label text */
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .form-group input {
-  width: 300px;
-  padding: 8px;
+  width: 400px;
+  max-width: 100%;
+  padding: 12px;
+  border-radius: 6px;
 }
 
 .form-actions {
-  margin-top: 30px; /* pushes TeachME button down */
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.index-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+.index-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.index-header h1 {
+  margin-bottom: 8px;
+}
+
+.index-header .subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.new-entry-link {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-end;
+}
+
+.entry-card {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.entry-card h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.entry-card h2 a {
+  text-decoration: none;
+}
+
+.entry-actions {
+  margin-top: 15px;
+}
+
+.entry-preview {
+  color: #555;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.guide-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.guide-header {
+  margin-bottom: 40px;
+}
+
+.guide-header h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.guide-use-case {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.guide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.guide-section {
+  background-color: white;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.guide-section h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.guide-section p {
+  line-height: 1.8;
+  font-size: 17px;
+}
+
+.guide-steps p {
+  line-height: 1.9;
+  margin-bottom: 16px;
+  font-size: 17px;
+}
+
+.code-block {
+  background-color: #f4f4f4;
+  padding: 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.nav-right a {
+  margin-left: 15px;
+  text-decoration: none;
 }

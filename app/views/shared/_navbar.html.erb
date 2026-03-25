@@ -1,8 +1,10 @@
-<div>
- <div>
-   <%= link_to "Back to Home", root_path %>
+<div class="navbar">
+  <div class="nav-left">
+    <%= link_to "TeachME!", root_path, class: "logo" %>
+  </div>
 
-
- </div>
+  <div class="nav-right">
+    <%= link_to "Home", root_path %>
+    <%= link_to "New Entry", new_entry_path %>
+  </div>
 </div>
-
