@@ -334,6 +334,7 @@ DEPENDENCIES
   bootstrap (~> 5.2, >= 5.2.3)
   brakeman
   capybara
+  cgi (>= 0.3.3)
   debug
   error_highlight (>= 0.4.0)
   faraday
