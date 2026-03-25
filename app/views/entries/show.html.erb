@@ -31,12 +31,16 @@
     <% end %>
 
     <% if @entry.doc_link.present? %>
-      <section class="guide-section">
-        <h2>Documentation</h2>
+        <section class="guide-section">
+            <h2>Documentation</h2>
+            <% if @safe_doc_link.present? %>
         <p>
-          <%= link_to "View documentation", @entry.doc_link, target: "_blank", rel: "noopener" %>
+        <%= link_to "View documentation", @safe_doc_link, target: "_blank", rel: "noopener noreferrer" %>
         </p>
-      </section>
+    <% else %>
+      <p>Documentation link unavailable.</p>
     <% end %>
+  </section>
+<% end %>
   </div>
 </div>
