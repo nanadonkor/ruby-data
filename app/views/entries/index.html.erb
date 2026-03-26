@@ -9,12 +9,39 @@
     </div>
   </div>
 
+  <div class="filters">
+    <%= form_with url: entries_path, method: :get, local: true do |f| %>
+      <div class="filter-group">
+        <%= f.text_field :query, value: params[:query], placeholder: "Search guides..." %>
+      </div>
+
+      <div class="filter-group">
+        <%= f.select :technology,
+          Entry.pluck(:technology).uniq,
+          { include_blank: "All Technologies", selected: params[:technology] } %>
+      </div>
+
+      <div class="filter-group">
+        <%= f.select :category,
+          ["Data Engineering", "APIs", "Testing", "Deployment"],
+          { include_blank: "All Categories", selected: params[:category] } %>
+      </div>
+
+      <div class="filter-group">
+        <%= f.submit "Filter" %>
+      </div>
+    <% end %>
+  </div>
+
   <div class="entries-list">
     <% @entries.each do |entry| %>
       <div class="entry-card">
         <h2>
           <%= link_to "#{entry.technology} for #{entry.use_case}", entry_path(entry) %>
         </h2>
+
+        <p><strong>Category:</strong> <%= entry.category %></p>
+        <p><strong>Created:</strong> <%= entry.created_at.strftime("%d %b %Y") %></p>
 
         <div class="entry-actions">
           <%= button_to "Delete", entry_path(entry), method: :delete %>

@@ -1,6 +1,28 @@
 class EntriesController < ApplicationController
   def index
-    @entries = Entry.order(created_at: :desc)
+    @entries = Entry.all
+
+    # Search (technology + use_case)
+    if params[:query].present?
+      @entries = @entries.where(
+        "technology ILIKE ? OR use_case ILIKE ?",
+        "%#{params[:query]}%",
+        "%#{params[:query]}%"
+      )
+    end
+
+    # Filter by technology
+    if params[:technology].present?
+      @entries = @entries.where(technology: params[:technology])
+    end
+
+    # Filter by category
+    if params[:category].present?
+      @entries = @entries.where(category: params[:category])
+    end
+
+    # Sort (newest first)
+    @entries = @entries.order(created_at: :desc)
   end
 
   def new
@@ -57,6 +79,6 @@ rescue URI::InvalidURIError
 end
 
   def entry_params
-    params.require(:entry).permit(:technology, :use_case)
+  params.require(:entry).permit(:technology, :use_case, :category)
   end
 end
