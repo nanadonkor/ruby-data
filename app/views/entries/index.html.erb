@@ -2,7 +2,11 @@
   <div class="index-header">
     <h1>TeachME!</h1>
     <p class="subtitle">Technical Learning Assistant</p>
-    <%= link_to "New Entry", new_entry_path, class: "new-entry-link" %>
+
+    <div class="header-actions">
+      <%= link_to "New Entry", new_entry_path, class: "new-entry-link" %>
+      <%= link_to "Knowledge Library", knowledge_documents_path, class: "new-entry-link" %>
+    </div>
   </div>
 
   <div class="entries-list">
@@ -12,10 +16,6 @@
           <%= link_to "#{entry.technology} for #{entry.use_case}", entry_path(entry) %>
         </h2>
 
-        <p class="entry-preview">
-            <%= truncate(entry.overview, length: 120) %>
-        </p>
-
         <div class="entry-actions">
           <%= button_to "Delete", entry_path(entry), method: :delete %>
         </div>
@@ -23,6 +23,3 @@
     <% end %>
   </div>
 </div>
-
-
-

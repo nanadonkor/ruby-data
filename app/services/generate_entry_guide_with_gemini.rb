@@ -52,32 +52,85 @@ class GenerateEntryGuideWithGemini
     }
   end
 
+  def retrieved_chunks
+    @retrieved_chunks ||= RetrieveKnowledgeContext.new(
+      technology: @entry.technology,
+      use_case: @entry.use_case
+    ).call
+  end
+
+  def retrieved_context
+    retrieved_chunks.map.with_index(1) do |chunk, index|
+      <<~TEXT
+        Source #{index}: #{chunk.knowledge_document.title}
+        #{chunk.content}
+      TEXT
+    end.join("\n\n")
+  end
+
   def prompt
-    <<~PROMPT
-      You are helping a developer learn a technology for a specific use case.
+    if retrieved_chunks.any?
+      <<~PROMPT
+        You are helping a developer learn a technology for a specific use case.
 
-      Technology: #{@entry.technology}
-      Use case: #{@entry.use_case}
+        Technology: #{@entry.technology}
+        Use case: #{@entry.use_case}
 
-      Return the response in exactly this format:
+        Use the retrieved knowledge below where relevant to improve the answer.
+        If the context is useful, ground the answer in it.
+        If the retrieved context is incomplete, you may still use general technical knowledge to provide a helpful answer.
 
-      OVERVIEW:
-      <short explanation>
+        Retrieved knowledge:
+        #{retrieved_context}
 
-      STEPS:
-      <step-by-step guide>
+        Return the response in exactly this format:
 
-      CODE EXAMPLE:
-      <simple code example>
+        OVERVIEW:
+        <short explanation>
 
-      DOC LINK:
-      <one useful official documentation link if known, otherwise write N/A>
+        STEPS:
+        <step-by-step guide>
 
-      TAGS:
-      <comma-separated tags>
+        CODE EXAMPLE:
+        <simple code example>
 
-      Keep it practical, beginner-friendly, and concise.
-    PROMPT
+        DOC LINK:
+        <one useful official documentation link if known, otherwise write N/A>
+
+        TAGS:
+        <comma-separated tags>
+
+        Keep it practical, beginner-friendly, and concise.
+      PROMPT
+    else
+      <<~PROMPT
+        You are helping a developer learn a technology for a specific use case.
+
+        Technology: #{@entry.technology}
+        Use case: #{@entry.use_case}
+
+        No stored knowledge was found for this request, so provide a helpful answer using general technical knowledge.
+
+        Return the response in exactly this format:
+
+        OVERVIEW:
+        <short explanation>
+
+        STEPS:
+        <step-by-step guide>
+
+        CODE EXAMPLE:
+        <simple code example>
+
+        DOC LINK:
+        <one useful official documentation link if known, otherwise write N/A>
+
+        TAGS:
+        <comma-separated tags>
+
+        Keep it practical, beginner-friendly, and concise.
+      PROMPT
+    end
   end
 
   def extract_text(parsed_response)

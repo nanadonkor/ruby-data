@@ -1,0 +1,51 @@
+<div class="page-container">
+  <div class="title-section">
+    <h1>TeachME!</h1>
+    <p class="subtitle">Add Knowledge Source</p>
+
+    <%= link_to "Back to Library", knowledge_documents_path, class: "back-link" %>
+  </div>
+
+  <div class="form-container">
+    <p class="form-hint">
+      Add a useful source for TeachME. A link is great for reference, but pasted notes or copied content will help with retrieval later.
+    </p>
+
+    <%= form_with model: @knowledge_document, local: true do |form| %>
+      <% if @knowledge_document.errors.any? %>
+        <div class="error-messages">
+          <h2><%= pluralize(@knowledge_document.errors.count, "error") %> prevented this source from being saved:</h2>
+          <ul>
+            <% @knowledge_document.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= form.label :title, "Source title" %>
+        <%= form.text_field :title, placeholder: "e.g. Terraform official docs" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :technology, "Technology (optional)" %>
+        <%= form.text_field :technology, placeholder: "e.g. Terraform" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :source_url, "Source link" %>
+        <%= form.text_field :source_url, placeholder: "https://example.com" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :raw_content, "Notes or copied content" %>
+        <%= form.text_area :raw_content, rows: 10, placeholder: "Paste any useful notes, excerpts, or copied documentation here..." %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Save Source" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :knowledge_documents, only: [ :index, :new, :create ]
   root "entries#index"
 end

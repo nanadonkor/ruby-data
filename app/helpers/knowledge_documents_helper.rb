@@ -1,0 +1,2 @@
+module KnowledgeDocumentsHelper
+end

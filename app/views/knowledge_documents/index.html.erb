@@ -1,0 +1,35 @@
+<div class="page-container">
+  <div class="title-section">
+    <h1>TeachME!</h1>
+    <p class="subtitle">Knowledge Library</p>
+
+    <div class="form-actions">
+      <%= link_to "Back to Home", entries_path, class: "back-link" %>
+      <%= link_to "Add Knowledge Source", new_knowledge_document_path, class: "new-entry-link" %>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <% if @knowledge_documents.any? %>
+      <div class="entries-list">
+        <% @knowledge_documents.each do |document| %>
+          <div class="entry-card">
+            <h2><%= document.title %></h2>
+
+            <% if document.technology.present? %>
+              <p><strong>Technology:</strong> <%= document.technology %></p>
+            <% end %>
+
+            <% if document.source_url.present? %>
+              <p><strong>Link:</strong> <%= document.source_url %></p>
+            <% end %>
+
+            <p><strong>Chunks:</strong> <%= document.knowledge_chunks.count %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No knowledge sources added yet.</p>
+    <% end %>
+  </div>
+</div>

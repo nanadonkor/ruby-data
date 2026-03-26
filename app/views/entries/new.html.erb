@@ -1,27 +1,24 @@
-<div class="page-containter">
-<div class="title-section">
-  <h1>TeachME!</h1>
-  <p class="subtitle">Technical Learning Assistant</p>
+<div class="page-container">
+  <div class="title-section">
+    <h1>TeachME!</h1>
+    <p class="subtitle">Technical Learning Assistant</p>
+  </div>
+
+  <div class="form-container">
+    <%= form_with model: @entry do |form| %>
+      <div class="form-group">
+        <%= form.label :technology %>
+        <%= form.text_field :technology %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :use_case, "Use Case/Scenario?" %>
+        <%= form.text_field :use_case %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "TeachME!" %>
+      </div>
+    <% end %>
+  </div>
 </div>
-
-<div class="form-container">
-  <%= form_with model: @entry do |form| %>
-
-    <div class="form-group">
-      <%= form.label :technology %>
-      <%= form.text_field :technology %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :use_case, "Use Case/Scenario?" %>
-      <%= form.text_field :use_case %>
-    </div>
-
-    <div class="form-actions">
-      <%= form.submit "TeachME!" %>
-    </div>
-
-  <% end %>
-</div>
-</div>
-

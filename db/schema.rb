@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_20_080035) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_25_205147) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,4 +27,26 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_20_080035) do
     t.string "doc_link"
     t.string "tags"
   end
+
+  create_table "knowledge_chunks", force: :cascade do |t|
+    t.bigint "knowledge_document_id", null: false
+    t.text "content"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["knowledge_document_id"], name: "index_knowledge_chunks_on_knowledge_document_id"
+  end
+
+  create_table "knowledge_documents", force: :cascade do |t|
+    t.string "title"
+    t.string "technology"
+    t.string "source_name"
+    t.string "source_type"
+    t.text "raw_content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "source_url"
+  end
+
+  add_foreign_key "knowledge_chunks", "knowledge_documents"
 end
