@@ -69,84 +69,71 @@ class GenerateEntryGuideWithGemini
   end
 
   def prompt
-    if retrieved_chunks.any?
-      <<~PROMPT
-        You are helping a developer learn a technology for a specific use case.
+    base_prompt = <<~PROMPT
+      You are helping a developer learn a technology for a specific use case.
 
-        Technology: #{@entry.technology}
-        Use case: #{@entry.use_case}
+      Technology: #{@entry.technology}
+      Use case: #{@entry.use_case}
+    PROMPT
 
-        Use the retrieved knowledge below where relevant to improve the answer.
-        If the context is useful, ground the answer in it.
-        If the retrieved context is incomplete, you may still use general technical knowledge to provide a helpful answer.
+    context_prompt =
+      if retrieved_chunks.any?
+        <<~PROMPT
+          Use the retrieved knowledge below where relevant to improve the answer.
+          If the context is useful, ground the answer in it.
+          If the retrieved context is incomplete, you may still use general technical knowledge to provide a helpful answer.
 
-        Retrieved knowledge:
-        #{retrieved_context}
+          Retrieved knowledge:
+          #{retrieved_context}
+        PROMPT
+      else
+        <<~PROMPT
+          No stored knowledge was found for this request, so provide a helpful answer using general technical knowledge.
+        PROMPT
+      end
 
-        Return the response in exactly this format:
+    format_prompt = <<~PROMPT
+      Return the response in exactly this format and with these exact headings:
 
-        OVERVIEW:
-        <short explanation>
+      OVERVIEW:
+      <short explanation>
 
-        STEPS:
-        <step-by-step guide>
+      STEPS:
+      <step-by-step guide>
 
-        CODE EXAMPLE:
-        <simple code example>
+      CODE EXAMPLE:
+      <simple code example>
 
-        DOC LINK:
-        <one useful official documentation link if known, otherwise write N/A>
+      DOC LINK:
+      <one useful official documentation link if known, otherwise write N/A>
 
-        TAGS:
-        <comma-separated tags>
+      TAGS:
+      <comma-separated tags>
 
-        Keep it practical, beginner-friendly, and concise.
-      PROMPT
-    else
-      <<~PROMPT
-        You are helping a developer learn a technology for a specific use case.
+      Do not use markdown headings.
+      Do not add extra sections.
+      Keep it practical, beginner-friendly, and concise.
+    PROMPT
 
-        Technology: #{@entry.technology}
-        Use case: #{@entry.use_case}
-
-        No stored knowledge was found for this request, so provide a helpful answer using general technical knowledge.
-
-        Return the response in exactly this format:
-
-        OVERVIEW:
-        <short explanation>
-
-        STEPS:
-        <step-by-step guide>
-
-        CODE EXAMPLE:
-        <simple code example>
-
-        DOC LINK:
-        <one useful official documentation link if known, otherwise write N/A>
-
-        TAGS:
-        <comma-separated tags>
-
-        Keep it practical, beginner-friendly, and concise.
-      PROMPT
-    end
+    [base_prompt, context_prompt, format_prompt].join("\n\n")
   end
 
   def extract_text(parsed_response)
-    parsed_response
-      .dig("candidates", 0, "content", "parts", 0, "text")
-      .to_s
-      .strip
+    parts = parsed_response.dig("candidates", 0, "content", "parts")
+    return "" unless parts.is_a?(Array)
+
+    parts.map { |part| part["text"] }.compact.join("\n").strip
   end
 
   def parse_sections(text)
+    normalised_text = text.gsub(/\r\n?/, "\n")
+
     {
-      overview: extract_section(text, "OVERVIEW:", "STEPS:"),
-      steps: extract_section(text, "STEPS:", "CODE EXAMPLE:"),
-      code_example: extract_section(text, "CODE EXAMPLE:", "DOC LINK:"),
-      doc_link: extract_section(text, "DOC LINK:", "TAGS:"),
-      tags: extract_section(text, "TAGS:", nil)
+      overview: extract_section(normalised_text, "OVERVIEW:", "STEPS:"),
+      steps: extract_section(normalised_text, "STEPS:", "CODE EXAMPLE:"),
+      code_example: extract_section(normalised_text, "CODE EXAMPLE:", "DOC LINK:"),
+      doc_link: extract_section(normalised_text, "DOC LINK:", "TAGS:"),
+      tags: extract_section(normalised_text, "TAGS:", nil)
     }
   end
 
