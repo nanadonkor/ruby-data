@@ -31,8 +31,30 @@
   letter-spacing: 0.5px;
 }
 
+body {
+  background-color: #f5f6f8;
+}
+
+.app-container:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.app-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 40px 30px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+// body {
+//   background-color: #f5f6f8;
+// }
+
  .main-container {
-  min-height: calc(100vh - 60px); /* adjust based on navbar height */
+  min-height: calc(100vh - 60px); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,6 +96,26 @@
   justify-content: center;
 }
 
+.action-button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid #999;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.upload-button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid #999;
+  background-color: #fff;
+  text-decoration: none;
+  color: #000;
+}
+
 .index-page {
   max-width: 1000px;
   margin: 0 auto;
@@ -101,10 +143,7 @@
 }
 
 .entries-list {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  align-items: flex-end;
+  width: 100%;
 }
 
 .entry-card {
@@ -221,4 +260,314 @@
 .nav-right a {
   margin-left: 15px;
   text-decoration: none;
+}
+
+.generating-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.library-title {
+  margin-top: 30px;
+  font-size: 22px;
+  color: #444;
+}
+
+.index-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.index-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.index-header h1 {
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.library-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.library-description {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.new-entry-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.filters {
+  margin-bottom: 30px;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.filter-form input,
+.filter-form select,
+.filter-form input[type="submit"] {
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+.results-header {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.entries-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.entry-main {
+  flex: 1;
+}
+
+.entry-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.entry-title a {
+  text-decoration: none;
+}
+
+.entry-use-case {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #444;
+}
+
+.entry-meta {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.meta-separator {
+  margin: 0 8px;
+}
+
+.entry-actions {
+  flex-shrink: 0;
+}
+
+.delete-button {
+  padding: 8px 14px;
+}
+
+.page-logo {
+  font-size: 56px;
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.page-subtitle {
+  font-size: 24px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.knowledge-form-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.knowledge-intro {
+  font-size: 18px;
+  line-height: 1.7;
+  text-align: center;
+  max-width: 950px;
+  margin: 0 auto 40px;
+}
+
+.notes-input {
+  width: 100%;
+  max-width: 700px;
+  min-height: 260px;
+  padding: 16px;
+  font-size: 18px;
+  line-height: 1.6;
+  border: 2px solid #444;
+  border-radius: 12px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.knowledge-form-wrapper {
+  max-width: 1000px;
+}
+
+.knowledge-form-wrapper input[type="text"],
+.knowledge-form-wrapper textarea {
+  width: 100%;
+  max-width: 850px;
+  padding: 16px;
+  font-size: 18px;
+  border: 2px solid #444;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.knowledge-form-wrapper label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.knowledge-form-wrapper .form-group {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.notes-input {
+  width: 100%;
+  max-width: 850px;   /* match inputs */
+  min-height: 320px;  /* taller */
+  padding: 16px;
+  font-size: 18px;
+  line-height: 1.6;
+  border: 2px solid #444;
+  border-radius: 12px;
+  resize: vertical;
+}
+
+.action-button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid #999;
+  background-color: #fff;
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+// .brand-heading {
+//   font-size: 42px;
+//   font-weight: 700;
+//   color: #1a73e8;
+//   text-align: center;
+//   margin-bottom: 8px;
+// }
+
+.theme-toggle {
+  margin-left: 15px;
+  padding: 8px 14px;
+  border: 1px solid #999;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+body.dark-mode .navbar {
+  background-color: #1b1b1b;
+  border-bottom: 1px solid #333;
+}
+
+body.dark-mode .app-container {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .guide-section {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+}
+
+body.dark-mode .entry-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+}
+
+body.dark-mode .entry-row {
+  border-bottom: 1px solid #333;
+}
+
+body.dark-mode .results-header {
+  border-bottom: 1px solid #333;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+  border: 2px solid #555;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #aaa;
+}
+
+body.dark-mode .action-button,
+body.dark-mode .upload-button,
+body.dark-mode .theme-toggle,
+body.dark-mode input[type="submit"],
+body.dark-mode button {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+  border: 1px solid #666;
+}
+
+body.dark-mode .page-subtitle,
+body.dark-mode .guide-use-case,
+body.dark-mode .library-description,
+body.dark-mode .entry-use-case,
+body.dark-mode .entry-meta,
+body.dark-mode .subtitle {
+  color: #c9c9c9;
+}
+
+body.dark-mode a {
+  color: #7db3ff;
 }

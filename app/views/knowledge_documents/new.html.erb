@@ -1,14 +1,14 @@
-<div class="page-container">
+<div class="app-container">
   <div class="title-section">
-    <h1>TeachME!</h1>
-    <p class="subtitle">Add Knowledge Source</p>
+    <h1 class="page-logo">TeachME!</h1>
+    <p class="page-subtitle">Add Knowledge Source</p>
 
-    <%= link_to "Back to Library", knowledge_documents_path, class: "back-link" %>
+    <%= link_to "Back to Library", root_path, class: "back-link" %>
   </div>
 
-  <div class="form-container">
-    <p class="form-hint">
-      Add a useful source for TeachME. A link is great for reference, but pasted notes or copied content will help with retrieval later.
+  <div class="form-container knowledge-form-wrapper">
+    <p class="form-hint knowledge-intro">
+      Add a useful resource for your TeachME! app. A link is great for reference, but pasted notes or copied content will help with generating user guides.
     </p>
 
     <%= form_with model: @knowledge_document, local: true do |form| %>
@@ -40,11 +40,14 @@
 
       <div class="form-group">
         <%= form.label :raw_content, "Notes or copied content" %>
-        <%= form.text_area :raw_content, rows: 10, placeholder: "Paste any useful notes, excerpts, or copied documentation here..." %>
+        <%= form.text_area :raw_content,
+          rows: 12,
+          placeholder: "Paste any useful notes, excerpts, or copied documentation here...",
+          class: "notes-input" %>
       </div>
 
       <div class="form-actions">
-        <%= form.submit "Save Source" %>
+        <%= form.submit "Save Source", class: "action-button" %>
       </div>
     <% end %>
   </div>

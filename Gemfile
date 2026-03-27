@@ -21,6 +21,8 @@ gem "sassc-rails"
 gem "bootstrap", "~> 5.2", ">= 5.2.3"
 gem "faraday"
 gem "cgi", ">= 0.3.3"
+gem "sidekiq"
+gem "redis"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

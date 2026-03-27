@@ -1,46 +1,48 @@
-<div class="guide-page">
+<% content_for :head do %>
+  <% unless @entry.overview.present? || @entry.steps.present? || @entry.code_example.present? %>
+    <meta http-equiv="refresh" content="5">
+  <% end %>
+<% end %>
+
+<div class=" app-container guide-page">
   <div class="guide-header">
     <%= link_to "Back to Home", entries_path, class: "back-link" %>
 
     <h1><%= @entry.technology %></h1>
-    <p class="guide-use-case"><%= @entry.use_case %></p>
-  </div>
+    <p><%= @entry.use_case %></p>
 
-  <div class="guide-content">
-    <% if @entry.overview.present? %>
-      <section class="guide-section">
+    <% if @entry.overview.present? || @entry.steps.present? || @entry.code_example.present? %>
+
+      <% if @entry.overview.present? %>
         <h2>Overview</h2>
         <p><%= @entry.overview %></p>
-      </section>
-    <% end %>
+      <% end %>
 
-    <% if @entry.steps.present? %>
-      <section class="guide-section">
+      <% if @entry.steps.present? %>
         <h2>Steps</h2>
-        <div class="guide-steps">
-          <%= simple_format(@entry.steps) %>
-        </div>
-      </section>
-    <% end %>
+        <p><%= simple_format(@entry.steps) %></p>
+      <% end %>
 
-    <% if @entry.code_example.present? %>
-      <section class="guide-section">
+      <% if @entry.code_example.present? %>
         <h2>Code Example</h2>
-        <pre class="code-block"><code><%= @entry.code_example %></code></pre>
-      </section>
+        <pre><code><%= @entry.code_example %></code></pre>
+      <% end %>
+
+      <% if @safe_doc_link.present? %>
+        <h2>Documentation</h2>
+        <p>
+          <%= link_to "View documentation", @safe_doc_link, target: "_blank", rel: "noopener" %>
+        </p>
+      <% end %>
+
+    <% else %>
+
+      <div class="generating-message">
+        <p><strong>Generating your learning guide... ⏳</strong></p>
+        <p>Please wait a few seconds for the page to refresh.</p>
+      </div>
+
     <% end %>
 
-    <% if @entry.doc_link.present? %>
-        <section class="guide-section">
-            <h2>Documentation</h2>
-            <% if @safe_doc_link.present? %>
-        <p>
-        <%= link_to "View documentation", @safe_doc_link, target: "_blank", rel: "noopener noreferrer" %>
-        </p>
-    <% else %>
-      <p>Documentation link unavailable.</p>
-    <% end %>
-  </section>
-<% end %>
   </div>
 </div>

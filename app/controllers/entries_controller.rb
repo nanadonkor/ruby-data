@@ -29,8 +29,8 @@ class EntriesController < ApplicationController
     @entry = Entry.new(entry_params)
 
     if @entry.save
-      GenerateEntryGuideWithGemini.new(@entry).call
-      redirect_to @entry, notice: "Guide generated successfully."
+      GenerateEntryGuideJob.perform_later(@entry.id)
+      redirect_to @entry, notice: "Entry created. Guide is being generated."
     else
       render :new, status: :unprocessable_entity
     end

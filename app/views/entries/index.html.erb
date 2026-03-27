@@ -1,50 +1,50 @@
-<div class="index-page">
+<div class=" app-container index-page">
   <div class="index-header">
-    <h1>TeachME!</h1>
-    <p class="subtitle">Technical Learning Assistant</p>
 
-    <div class="header-actions">
-      <%= link_to "New Entry", new_entry_path, class: "new-entry-link" %>
-      <%= link_to "Knowledge Library", knowledge_documents_path, class: "new-entry-link" %>
-    </div>
+    <h2 class="page-logo">Learner’s Library</h2>
+    <p class="library-description">Browse through your saved guides through this searchable index.</p>
+    <%= link_to "Add New Guide", new_entry_path, class: "new-entry-link" %>
   </div>
 
   <div class="filters">
-    <%= form_with url: entries_path, method: :get, local: true do |f| %>
-      <div class="filter-group">
-        <%= f.text_field :query, value: params[:query], placeholder: "Search guides..." %>
-      </div>
+    <%= form_with url: entries_path, method: :get, local: true, class: "filter-form" do |f| %>
+      <%= f.text_field :query, value: params[:query], placeholder: "Search guides..." %>
 
-      <div class="filter-group">
-        <%= f.select :technology,
-          Entry.pluck(:technology).uniq,
-          { include_blank: "All Technologies", selected: params[:technology] } %>
-      </div>
+      <%= f.select :technology,
+        Entry.pluck(:technology).uniq,
+        { include_blank: "All Technologies", selected: params[:technology] } %>
 
-      <div class="filter-group">
-        <%= f.select :category,
-          ["Data Engineering", "APIs", "Testing", "Deployment"],
-          { include_blank: "All Categories", selected: params[:category] } %>
-      </div>
+      <%= f.select :category,
+        ["Data Engineering", "APIs", "Testing", "Deployment"],
+        { include_blank: "All Categories", selected: params[:category] } %>
 
-      <div class="filter-group">
-        <%= f.submit "Filter" %>
-      </div>
+      <%= f.submit "Filter" %>
     <% end %>
+  </div>
+
+  <div class="results-header">
+    <h3>User Guides</h3>
   </div>
 
   <div class="entries-list">
     <% @entries.each do |entry| %>
-      <div class="entry-card">
-        <h2>
-          <%= link_to "#{entry.technology} for #{entry.use_case}", entry_path(entry) %>
-        </h2>
+      <div class="entry-row">
+        <div class="entry-main">
+          <h3 class="entry-title">
+            <%= link_to entry.technology, entry_path(entry) %>
+          </h3>
 
-        <p><strong>Category:</strong> <%= entry.category %></p>
-        <p><strong>Created:</strong> <%= entry.created_at.strftime("%d %b %Y") %></p>
+          <p class="entry-use-case"><%= entry.use_case %></p>
+
+          <p class="entry-meta">
+            <strong>Category:</strong> <%= entry.category.presence || "General" %>
+            <span class="meta-separator">•</span>
+            <strong>Created:</strong> <%= entry.created_at.strftime("%d %b %Y") %>
+          </p>
+        </div>
 
         <div class="entry-actions">
-          <%= button_to "Delete", entry_path(entry), method: :delete %>
+          <%= button_to "Delete", entry_path(entry), method: :delete, class: "delete-button" %>
         </div>
       </div>
     <% end %>

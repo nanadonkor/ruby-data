@@ -1,6 +1,6 @@
-<div class="page-container">
+<div class="app-container page-container">
   <div class="title-section">
-    <h1>TeachME!</h1>
+    <h1 class="page-logo">TeachME!</h1>
     <p class="subtitle">Technical Learning Assistant</p>
   </div>
 
@@ -16,13 +16,9 @@
         <%= form.text_field :use_case %>
       </div>
 
-      <div class="form-group">
-        <%= form.label :category %>
-        <%= form.select :category, ["Data Engineering", "APIs", "Testing", "Deployment"], include_blank: "Select Category" %>
-      </div>
-
       <div class="form-actions">
-        <%= form.submit "TeachME!" %>
+        <%= form.submit "TeachME!", class: "action-button" %>
+        <%= link_to "Upload", new_knowledge_document_path, class: "action-button" %>
       </div>
     <% end %>
   </div>

@@ -12,7 +12,7 @@ class KnowledgeDocumentsController < ApplicationController
 
     if @knowledge_document.save
       ChunkKnowledgeDocument.new(@knowledge_document).call
-      redirect_to knowledge_documents_path, notice: "Knowledge document uploaded successfully."
+      redirect_to root_path, notice: "Knowledge document uploaded successfully."
     else
       render :new, status: :unprocessable_entity
     end

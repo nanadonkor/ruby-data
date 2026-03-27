@@ -7,7 +7,7 @@ class GenerateEntryGuideWithGemini
   end
 
   def call
-    raise "Missing GEMINI_API_KEY" if @api_key.nil? || @api_key.empty?
+    raise "Missing GEMINI_API_KEY" if @api_key.blank?
 
     response = connection.post do |request|
       request.url GEMINI_URL
@@ -21,14 +21,16 @@ class GenerateEntryGuideWithGemini
     parsed_response = JSON.parse(response.body)
     text = extract_text(parsed_response)
 
-    structured_content = parse_sections(text)
+    raise "Gemini returned empty text" if text.blank?
+
+    guide_data = parse_guide_json(text)
 
     @entry.update!(
-      overview: structured_content[:overview],
-      steps: structured_content[:steps],
-      code_example: structured_content[:code_example],
-      doc_link: structured_content[:doc_link],
-      tags: structured_content[:tags]
+      overview: guide_data["overview"],
+      steps: guide_data["steps"],
+      code_example: guide_data["code_example"],
+      doc_link: guide_data["doc_link"],
+      tags: guide_data["tags"]
     )
   end
 
@@ -69,14 +71,7 @@ class GenerateEntryGuideWithGemini
   end
 
   def prompt
-    base_prompt = <<~PROMPT
-      You are helping a developer learn a technology for a specific use case.
-
-      Technology: #{@entry.technology}
-      Use case: #{@entry.use_case}
-    PROMPT
-
-    context_prompt =
+    context_block =
       if retrieved_chunks.any?
         <<~PROMPT
           Use the retrieved knowledge below where relevant to improve the answer.
@@ -92,30 +87,30 @@ class GenerateEntryGuideWithGemini
         PROMPT
       end
 
-    format_prompt = <<~PROMPT
-      Return the response in exactly this format and with these exact headings:
+    <<~PROMPT
+      You are helping a developer learn a technology for a specific use case.
 
-      OVERVIEW:
-      <short explanation>
+      Technology: #{@entry.technology}
+      Use case: #{@entry.use_case}
 
-      STEPS:
-      <step-by-step guide>
+      #{context_block}
 
-      CODE EXAMPLE:
-      <simple code example>
+      Return valid JSON only.
+      Do not use markdown.
+      Do not wrap the JSON in triple backticks.
 
-      DOC LINK:
-      <one useful official documentation link if known, otherwise write N/A>
+      Use exactly this structure:
 
-      TAGS:
-      <comma-separated tags>
+      {
+        "overview": "short explanation",
+        "steps": "step-by-step guide",
+        "code_example": "simple code example",
+        "doc_link": "one useful official documentation link or N/A",
+        "tags": "comma-separated tags"
+      }
 
-      Do not use markdown headings.
-      Do not add extra sections.
       Keep it practical, beginner-friendly, and concise.
     PROMPT
-
-    [base_prompt, context_prompt, format_prompt].join("\n\n")
   end
 
   def extract_text(parsed_response)
@@ -125,29 +120,29 @@ class GenerateEntryGuideWithGemini
     parts.map { |part| part["text"] }.compact.join("\n").strip
   end
 
-  def parse_sections(text)
-    normalised_text = text.gsub(/\r\n?/, "\n")
+  def parse_guide_json(text)
+    cleaned_text = text.strip
 
-    {
-      overview: extract_section(normalised_text, "OVERVIEW:", "STEPS:"),
-      steps: extract_section(normalised_text, "STEPS:", "CODE EXAMPLE:"),
-      code_example: extract_section(normalised_text, "CODE EXAMPLE:", "DOC LINK:"),
-      doc_link: extract_section(normalised_text, "DOC LINK:", "TAGS:"),
-      tags: extract_section(normalised_text, "TAGS:", nil)
-    }
-  end
-
-  def extract_section(text, start_marker, end_marker)
-    start_index = text.index(start_marker)
-    return "" unless start_index
-
-    start_index += start_marker.length
-
-    if end_marker
-      end_index = text.index(end_marker, start_index)
-      return text[start_index...end_index].to_s.strip
+    if cleaned_text.start_with?("```json")
+      cleaned_text = cleaned_text.gsub(/\A```json\s*/, "").gsub(/\s*```\z/, "")
+    elsif cleaned_text.start_with?("```")
+      cleaned_text = cleaned_text.gsub(/\A```\s*/, "").gsub(/\s*```\z/, "")
     end
 
-    text[start_index..].to_s.strip
+    data = JSON.parse(cleaned_text)
+
+    unless data.is_a?(Hash)
+      raise "Gemini JSON response was not an object"
+    end
+
+    {
+      "overview" => data["overview"].to_s.strip,
+      "steps" => data["steps"].to_s.strip,
+      "code_example" => data["code_example"].to_s.strip,
+      "doc_link" => data["doc_link"].to_s.strip,
+      "tags" => data["tags"].to_s.strip
+    }
+  rescue JSON::ParserError => e
+    raise "Failed to parse Gemini JSON response: #{e.message}"
   end
 end
